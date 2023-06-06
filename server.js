@@ -6,6 +6,11 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
+const axios = require('axios');
+const db = require('./models');
+const apiKey = process.env.API_KEY
+
+
 
 
 // environemnt variables
@@ -38,11 +43,26 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.render('index');
+// app.get('/', (req, res) => {
+//   res.render('index');
+// })
+
+app.get("/", (req, res) => {
+db.park.findAll({
+  order: [
+    ['name', 'ASC']
+  ]
+})
+.then(parks => {
+  cleanedParks = parks.map(park => park.toJSON());
+  console.log('parks', cleanedParks)
+  res.render('index', {parks: cleanedParks});
+  });
 })
 
+
 app.use('/auth', require('./controllers/auth'));
+// app.use('/parks', require('./controllers/parks'))
 
 // Add this above /auth controllers
 app.get('/profile', isLoggedIn, (req, res) => {

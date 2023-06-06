@@ -1,1 +1,10 @@
 <h2>Homepage</h2>
+<ul>
+    <% parks.forEach(parkListed => { %>
+    <li>
+        <a href="<%= parkListed.url %>" target="_blank">
+            <%= parkListed.name %>
+        </a>
+    </li>
+    <% }); %>
+</ul>
