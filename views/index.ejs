@@ -1,30 +1,4 @@
-<h2>Search for parks</h2>
-<form action="/result" method="post">
-    <div>
-        <label for="code">Name: </label>
-        <select id="designation" name="code">
-            <option selected disabled>Select a Park</option>
-            <% parks.forEach(park => { %>
-            <option value="<%= park.parkCode %>"><%= park.fullName %></option>
-            <% }) %>
-        </select>
-        <button for="code" type="submit">Search by Name</button>
-    </div>
-
-</form>
-<h3>OR</h3>
-<form action="/result" method="post">
-    <div>
-        <label for="designation">Type: </label>
-        <select id="designation" name="designation">
-            <option selected disabled>Select a Park Type</option>
-            <% designations.forEach(designation => { %>
-            <% if(designation !== "") {%>
-            <option value="<%= designation %>"><%= designation %></option>
-            <% } %>
-            <% }) %>
-        </select>
-        <button for="designation" type="submit">Search by Park Type</button>
-    </div>
-
-</form>
+<div class="row text-center">
+    <h1>Welcome to the PARKing Lot</h1>
+    <a href="/search"><button class="btn btn-primary favorite-btn">Let's Find A Park!</button></a>
+</div>

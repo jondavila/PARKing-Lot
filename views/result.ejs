@@ -1,9 +1,12 @@
-<h1>result page</h1>
-
-<ul>
-    <% data.forEach(park => { %>
-    <li><%= park.fullName %></li>
-    <a href="/park/<%= park.parkCode %>">More Info >>></a>
-</ul>
-
-<% }) %>
+<div class="container">
+    <h1>Search Results</h1>
+  
+    <ul class="list-group">
+      <% data.forEach(park => { %>
+        <li class="list-group-item mt-3">
+          <h4><%= park.fullName %></h4>
+          <a class="btn btn-primary" href="/park/<%= park.parkCode %>">More Info &raquo;</a>
+        </li>
+      <% }) %>
+    </ul>
+  </div>

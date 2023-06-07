@@ -1,0 +1,40 @@
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/profile"><%= name %>'s Profile</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= name %>'s Favorites</li>
+        </ol>
+    </nav>
+    <!-- /Breadcrumb -->
+
+    <div class="row gutters-sm">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="mt-2">Favorites</h1>
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <ul class="list-group list-group-flush">
+                            <% if(parks.length !== 0) {%>
+                            <% parks.forEach(park => { %>
+                            <li class="list-group-item">
+                                <div>
+                                    <a href="/park/<%= park.parkCode %>"><%= park.fullName %></a>
+                                    <a href="/profile/remove/<%= park.parkCode %>">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ml-2"
+                                            onclick="return confirm('Are you sure you want to remove this park?')">Remove</button>
+                                    </a>
+                                </div>
+                            </li>
+                            <% }) %>
+                            <% } else {%>
+                            <li class="list-group-item">The list is empty. <br><a href="/search">Go Find Some Parks!</a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
