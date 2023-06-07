@@ -1,0 +1,21 @@
+<p>Like this park? Add it to your favorites list <button>Add to Favorites</button></p>
+<a href="<%= park.url %>" target="_blank"><%= park.fullName %></a>
+<p>Type: <%= park.designation %></p>
+<p>
+    <%= park.description %>
+</p>
+<h1>Things to do:</h1>
+<ul>
+    <% park.activities.forEach(activity =>{ %>
+        <li><%= activity.name %></li>
+    <% }) %>
+</ul>
+
+<p>Found in these states: <%= park.states %></p>
+
+<h1>Images:</h1>
+<% park.images.forEach(photo => { %>
+    <img src="<%= photo.url %>" alt="<%= photo.altText %>" style="height: 200px;">
+    <p>Credit: <%= photo.credit %></p>
+    <p><%= photo.caption %></p>
+<% }) %>

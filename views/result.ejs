@@ -1,0 +1,9 @@
+<h1>result page</h1>
+
+<ul>
+    <% data.forEach(park => { %>
+    <li><%= park.fullName %></li>
+    <a href="/park/<%= park.parkCode %>">More Info >>></a>
+</ul>
+
+<% }) %>

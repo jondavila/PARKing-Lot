@@ -23,6 +23,7 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+app.use(express.urlencoded({extended: false}));
 
 app.use(flash());            // flash middleware
 
@@ -55,9 +56,52 @@ db.park.findAll({
 })
 .then(parks => {
   cleanedParks = parks.map(park => park.toJSON());
-  console.log('parks', cleanedParks)
-  res.render('index', {parks: cleanedParks});
+  let designations = [];
+  cleanedParks.forEach(park => {
+    if(!designations.includes(park.designation)){
+      designations.push(park.designation)
+    }
   });
+  return res.render('index', {parks: cleanedParks, designations});
+  });
+})
+
+app.get('/result', (req,res) => {
+  return res.render('result')
+})
+
+app.post('/result', (req,res) => {
+  const parsedCategory = {...req.body};
+  console.log(parsedCategory);
+  if (parsedCategory.code){
+    axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=${parsedCategory.code}&api_key=${apiKey}`)
+    .then(response => {
+      console.log('response data', response.data.data);
+      let foundPark = response.data.data; // returns an array with one element
+      console.log(foundPark);
+      return res.render('result', { data: foundPark });
+    })
+  } else if (parsedCategory.designation) {
+    db.park.findAll({
+      where: {
+        designation: parsedCategory.designation
+      }
+    })
+    .then(foundParks => {
+      const cleanedData = foundParks.map(park => park.toJSON()); // returns an array
+      // console.log('found parks', cleanedData);
+      return res.render('result', { data: cleanedData });
+    })
+  }
+})
+
+app.get('/park/:parkCode', (req,res) => {
+  axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=${req.params.parkCode}&api_key=${apiKey}`)
+  .then(response => {
+    const park = response.data.data[0];
+    res.render('park', { park});
+  })
+  // console.log('req.params.name', req.params.parkCode);
 })
 
 
