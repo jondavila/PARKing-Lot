@@ -39,7 +39,7 @@ NP_API_KEY = [insert national parks api key here]
 MAP_API_KEY = [insert mapbox api key here]
 ```
 5. Run `npm install` to install dependencies.
-5. Run `npm install` ,`sequelize db:create`, `sequelize db:migrate:all`, and `sequelize db:seed:all` to setup database.
+5. Run `sequelize db:create`, `sequelize db:migrate:all`, and `sequelize db:seed:all` to setup database.
 6. Run `npm run dev` to start server.
 7. Open `http://localhost:3000` in a web browser to access app.
 
