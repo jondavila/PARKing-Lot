@@ -1,15 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const layouts = require('express-ejs-layouts');
 const router = express.Router();
-const session = require('express-session');
-const flash = require('connect-flash');
-const passport = require('../config/ppConfig');
-const isLoggedIn = require('../middleware/isLoggedIn');
 const axios = require('axios');
 const db = require('../models');
 const apiKey = process.env.NP_API_KEY;
-const mapApiKey = process.env.MAP_API_KEY;
 
 router.get('/', (req, res) => {
     let message = "Search needed to view results. Please return to the home page."
