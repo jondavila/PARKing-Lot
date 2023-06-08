@@ -20,6 +20,7 @@ router.post('/', (req, res) => {
         axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=${parsedCategory.code}&api_key=${apiKey}`)
             .then(response => {
                 let foundPark = response.data.data; // returns an array with one element
+                return res.redirect(`/park/${parsedCategory.code}`);
                 return res.render('result', { data: foundPark });
             })
             .catch(error => {
