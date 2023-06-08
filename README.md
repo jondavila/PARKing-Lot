@@ -22,6 +22,7 @@ To view the app online, visit
 
 * Search for parks by their name or park designation (national park, memorial site, national monument, etc...).
 * If you would like to save a park for future use, create an account then hit the "Add to Favorites" button found on the respective park page.
+
 ---
 ## HOW TO INSTALL
 
@@ -37,6 +38,7 @@ SECRET_SESSION = [insert any string here]
 NP_API_KEY = [insert national parks api key here]
 MAP_API_KEY = [insert mapbox api key here]
 ```
+5. Run `npm install` to install dependencies.
 5. Run `npm install` ,`sequelize db:create`, `sequelize db:migrate:all`, and `sequelize db:seed:all` to setup database.
 6. Run `npm run dev` to start server.
 7. Open `http://localhost:3000` in a web browser to access app.
