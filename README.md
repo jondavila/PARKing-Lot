@@ -37,7 +37,7 @@ SECRET_SESSION = [insert any string here]
 NP_API_KEY = [insert national parks api key here]
 MAP_API_KEY = [insert mapbox api key here]
 ```
-5. Run `sequelize db:create`, `sequelize db:migrate:all`, and `sequelize db:seed:all` to setup database.
+5. Run `npm install` ,`sequelize db:create`, `sequelize db:migrate:all`, and `sequelize db:seed:all` to setup database.
 6. Run `npm run dev` to start server.
 7. Open `http://localhost:3000` in a web browser to access app.
 
@@ -99,12 +99,14 @@ These are some features I would like to implement.
 ### NOTES
 I'd like to give users the option to write notes and/or rate parks that they've visited.
 
-### EDIT USER INFO
-Typos exist. If I wrote "Jpnathan Da ila" as my name, I'd like to have the option to change it too.
+### DISPLAY MORE INFORMATION
+I'd like to show the user more information on each park (such as prices, directions, topics). I'm thinking these can be additional routes such as /zion/prices.
 
 ### MORE SEARCHES
 I'd like to add more search conditions such as by state, activity, price and eventually have the different search requests work together to be as specific as the user would like (barring the park name)
 
+### NOTIFICATIONS
+Show some kind of confirmation for actions.
 
 ---
 

@@ -66,6 +66,34 @@ router.get('/remove/:parkCode', isLoggedIn, (req, res) => {
         });
 })
 
+router.get('/edit/:name', isLoggedIn, (req,res) => {
+    db.user.findOne({ where: { id: req.user.id }})
+    .then(user => {
+        console.log('hello');
+        res.render('edit', { user });
+    })
+})
+
+router.post('/edit/:name', isLoggedIn, (req, res) => {
+    const parsedBody = {...req.body};
+    db.user.update({
+        name: req.body.name,
+        email: req.body.email
+    },{
+        where: {
+            name: req.params.name
+        }
+    })
+    .then(num => {
+        res.redirect('/profile');
+    })
+    .catch(error => {
+        console.log('error', error);
+        let message = 'Cannot edit user. Please try again...';
+        res.render('error', { message });
+    });
+})
+
 
 router.post('/', isLoggedIn, (req, res) => {
     // console.log('req.code', req.body.code);
