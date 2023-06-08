@@ -5,6 +5,9 @@ const app = express();
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
+const axios = require('axios');
+const apiKey = process.env.NP_API_KEY;
+
 
 
 
@@ -44,6 +47,10 @@ app.get("/", (req, res) => {
 })
 
 app.get('/test', (req, res) => {
+  axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=zion&api_key=${apiKey}`)
+    .then(response => {
+      console.log('response', response.data.data[0]);
+    })
   res.render('test');
 })
 

@@ -12,12 +12,17 @@ To view the app online, visit
 * Express
 * EJS
 * JavaScript
-* CSS
+* Bootstrap
 * Postgres
 * Sequelize
 
 ---
 
+## HOW TO USE
+
+* Search for parks by their name or park designation (national park, memorial site, national monument, etc...).
+* If you would like to save a park for future use, create an account then hit the "Add to Favorites" button found on the respective park page.
+---
 ## HOW TO INSTALL
 
 Requires `Node.js`, `Postgres`, and `Sequelize`
@@ -38,131 +43,71 @@ MAP_API_KEY = [insert mapbox api key here]
 
 ---
 
-## HOW TO INSTALL  
+## SCREENSHOTS
 
-Clone this repository to your machine.
+### Search Page
+![search page](./public/images/search.png)
 
-```bash
-git clone https://github.com/jondavila/mountain-climber.git
-```
-
-Open index.html file in a browser to play.
-
-Open app.js file in a text editor to view/edit the code that makes this work.
-
----
-
-## GAMEPLAY
-
-![screenshot](/images/gamescreenshot.png)
+### Park Page
+![park page](/public/images/park.png)
 
 ---
 
 ## HOW IT WORKS
-The game's main mechanic is moving the square side to side and bouncing off of platforms.
+PARKing Lot uses the National Parks api to get information on every park and the Mapbox api to display a park's location on it's respective page.
 
-### COLLISION DETECTION (BOUNCING)
+Users can add/remove parks to a favorites database for quick access to liked parks.
+
+### API CALLS
+Although the database has been seeded with information on all parks, there's still more data to use! Below is the code written to access data on Zion National Park. Each park has a unique parkCode that can be used to retrieve information. This code is a 4 letter string and has been seeded for every park. 
+
 ```javascript
-function positionUpdate() {
-    user.dy += gravity;
-    user.y += user.dy;
-    // user.x += user.dx;
-    user.render();
-}
-
-function detectHit(user, platform) {
-    // we only want to detect hits from above, as we want the users to pass through plaforms from below
-
-    let hitTest = (
-        user.y + user.height > platform.y &&
-        user.y < platform.y + platform.height &&
-        user.x + user.width > platform.x &&
-        user.x < platform.x + platform.width &&
-        user.dy > 1
-    );
-
-    if (hitTest) {
-        user.dy = -12
-    }
-}
+axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=zion&api_key=${apiKey}`)
+      .then(response => {
+        const park = response.data.data[0]; // returns an object with all information related to Zion National Park
+      })
+      .catch(error => {
+        console.log('error', error);
+        let message = 'Cannot find park. Please try again...';
+        res.render('error', { message });
+      });
+    // console.log('req.params.name', req.params.parkCode);
 ```
+Afterwards, we can grab the information we've chosen to display on our park page (name, url, images, activities, hours) and the longitude/latitude data to insert into the Mapbox api.
 
-In the real world, an object's vertical velocity is applied a constant acceleration due to gravity. This game emulates that by adding a `gravity` constant to the user's speed each time the game loop is iterated - every 22 milliseconds. Once the user is falling down, any overlap between the user's and platforms' position will result in the user's vertical speed to change to a set value. `gravity` will affect this value immediately, resulting in a smoother vertical motion.
-
-*It's important to note that the game's frame of reference considers down and right to be positive*
-
-
-### PLAYER MOVEMENT
 ```javascript
-function movementHandler(e) {
-    if (e.key === 'ArrowLeft' || e.code === 'KeyA') {
-        user.dx = -5;
-    } else if (e.key === 'ArrowRight' || e.code === 'KeyD') {
-        user.dx = 5;
-    }
-}
-
-function positionUpdate() {
-    // user.dy += gravity;
-    // user.y += user.dy;
-    user.x += user.dx;
-    // user.render();
-}
+router.get('/:parkCode', (req, res) => {
+    axios.get(`https://developer.nps.gov/api/v1/parks?limit=500&parkCode=${req.params.parkCode}&api_key=${apiKey}`)
+      .then(response => {
+        const park = response.data.data[0];
+        const mapUrl = `https://api.mapbox.com/styles/v1/jondav/clidupmg9001q01r74k0r36np.html?title=false&access_token=${mapApiKey}&zoomwheel=false#7/${park.latitude}/${park.longitude}`
+        res.render('park', { park, mapUrl });
+      })
+      .catch(error => {
+        console.log('error', error);
+        let message = 'Cannot find park. Please try again...';
+        res.render('error', { message });
+      });
+    // console.log('req.params.name', req.params.parkCode);
+  })
 ```
-
-Once a user's input is detected, the square's horizontal velocity is changed to reflect the desired motion. The initial velocity is 0 by default so that the user may choose their starting direction.
-
-
-### PLATFORM GENERATION
-```javascript
-class Platform {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.dy = 0;
-        this.width = 45;
-        this.height = 10;
-
-        this.render = () => {
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-}
-
-function createPlatforms(y) {
-    let randX = Math.floor(Math.random() * (game.width - 40));
-    let plat = new Platform(randX, y);
-    platforms.push(plat);
-}
-
-function generateNewPlatforms() {
-    let onScreen = platforms.length;
-    if (onScreen < 12) {
-        createPlatforms(-10);
-    }
-}
-```
-
-All platforms are pushed to an array once created. If this array is less than a set value, a new platform is generated offscreen where it will eventually move into view. The platfroms are spawned randomly across the game's width, making each game unique.
-
 ---
 
 ## A LOOK TO THE FUTURE
 These are some features I would like to implement.
 
-### DIFFICULTY SELECTION
-Some people may not find the current game speed to be suitable. I would like to give user's the options to choose between an easy, medium, and hard setting as well as a custom mode.
+### NOTES
+I'd like to give users the option to write notes and/or rate parks that they've visited.
 
-### POWER-UPS
-Wouldn't it be nice to suddenly increase your score by 300 points? Or maybe you lost after almost beating your high score, but thankfully you had another chance? I'd like to implement these powerups to further enhance the user's experience.
+### EDIT USER INFO
+Typos exist. If I wrote "Jpnathan Da ila" as my name, I'd like to have the option to change it too.
 
-### ENEMIES
-I'd like to include enemies that move alongside the platforms. If the user hits them from below, the game is over. However, if hit from above, the user bounces off using the now destroyed enemy as a platform.
+### MORE SEARCHES
+I'd like to add more search conditions such as by state, activity, price and eventually have the different search requests work together to be as specific as the user would like (barring the park name)
 
-### CUSTOM SPRITES
-While not a feature that impacts gameplay, I'd like to change the cosmetic to have a more personal touch.
 
 ---
 
-## WIREFRAME
-![whiteboard](/images/whiteboard.png)
+## ATTRIBUTIONS
+* [National Parks Service](https://www.nps.gov/subjects/developer/index.htm)
+* [Mapbox](https://www.mapbox.com/)
