@@ -2,7 +2,7 @@
 
 PARKing Lot is an app designed to display information related to all parks operated by the National Parks Service.
 
-To view the app online, visit 
+To view the app online, visit https://np-parking-lot.herokuapp.com/
 
 ---
 
