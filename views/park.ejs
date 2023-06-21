@@ -7,7 +7,8 @@
     </div>
     <div class="row align-items-center mt-4">
         <div class="col-md-10">
-            <h1 id="park-name" class="mt-4 d-inline"><a href="<%= park.url %>" target="_blank"><%= park.fullName %></a></h1>
+            <h1 id="park-name" class="mt-4 d-inline"><%= park.fullName %></h1>
+            <p><a href="<%= park.url %>" target="_blank">Official Site</a></p>
         </div>
         <div class="col-md-2 text-right">
             <form action="/profile" method="post">
