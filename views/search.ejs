@@ -1,43 +1,48 @@
 <head>
-    <title>Search for a Park</title>
+  <title>Search for a Park</title>
 </head>
+<div class="container">
+  <div class="row text-center">
+    <h1>Search by ONE of the following:</h1>
+  </div>
+</div>
+</div>
 <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-6">
-        <form action="/result" method="post">
-          <div class="form-group text-center">
-            <label for="code">Search by Park Name</label>
-            <select id="designation" name="code" class="form-control mt-3 text-center">
-              <option selected disabled>Park Name</option>
-              <% parks.forEach(park => { %>
-              <option value="<%= park.parkCode %>"><%= park.fullName %></option>
-              <% }) %>
-            </select>
-          </div>
-          <div class="text-center">
-              <button for="code" type="submit" class="btn btn-primary mt-2">Search by Name</button>
-          </div>
-        </form>
-      </div>
-  
-      <div class="col-md-6">
-        <form action="/result" method="post">
-          <div class="form-group text-center">
-            <label for="designation">Search by Park Type</label>
-            <select id="designation" name="designation" class="form-control mt-3 text-center">
-              <option selected disabled>Park Type</option>
-              <% designations.forEach(designation => { %>
-              <% if(designation !== "") { %>
-              <option value="<%= designation %>"><%= designation %></option>
-              <% } %>
-              <% }) %>
-            </select>
-          </div>
-          <div class="text-center">
-              <button for="designation" type="submit" class="btn btn-primary mt-2">Search by Park Type</button>
-          </div>
-        </form>
-      </div>
+  <div class="row">
+    <div class="col-md-6">
+      <form action="/result" method="post">
+        <div class="form-group text-center">
+          <label for="code">Search by Park Name</label>
+          <select id="designation" name="code" class="form-control mt-3 text-center">
+            <option selected disabled>Park Name</option>
+            <% parks.forEach(park => { %>
+            <option value="<%= park.parkCode %>"><%= park.fullName %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="text-center">
+          <button for="code" type="submit" class="btn btn-primary mt-2">Search by Name</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <form action="/result" method="post">
+        <div class="form-group text-center">
+          <label for="designation">Search by Park Type</label>
+          <select id="designation" name="designation" class="form-control mt-3 text-center">
+            <option selected disabled>Park Type</option>
+            <% designations.forEach(designation => { %>
+            <% if(designation !== "") { %>
+            <option value="<%= designation %>"><%= designation %></option>
+            <% } %>
+            <% }) %>
+          </select>
+        </div>
+        <div class="text-center">
+          <button for="designation" type="submit" class="btn btn-primary mt-2">Search by Park Type</button>
+        </div>
+      </form>
     </div>
   </div>
-  
+</div>
