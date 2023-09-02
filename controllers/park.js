@@ -17,7 +17,6 @@ router.get('/:parkCode', (req, res) => {
         let message = 'Cannot find park. Please try again...';
         res.render('error', { message });
       });
-    // console.log('req.params.name', req.params.parkCode);
   })
 
 module.exports = router;

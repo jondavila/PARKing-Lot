@@ -8,9 +8,6 @@ const passport = require('./config/ppConfig');
 const axios = require('axios');
 const apiKey = process.env.NP_API_KEY;
 
-
-
-
 // environemnt variables
 SECRET_SESSION = process.env.SECRET_SESSION;
 // console.log('>>>>>>>', SECRET_SESSION);
@@ -22,9 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
 app.use(express.urlencoded({ extended: false }));
-
 app.use(flash());            // flash middleware
-
 app.use(session({
   secret: SECRET_SESSION,    // What we actually will be giving the user on our site as a session cookie
   resave: false,             // Save the session even if it's modified, make this false
@@ -59,7 +54,6 @@ app.use('/park', require('./controllers/park'));
 app.use('/profile', require('./controllers/profile'));
 app.use('/search', require('./controllers/search'));
 app.use('/result', require('./controllers/result'));
-
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
